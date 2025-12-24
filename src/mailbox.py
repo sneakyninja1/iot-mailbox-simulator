@@ -4,7 +4,7 @@ import threading
 from typing import Callable, Optional
 
 class IOTMailbox: 
-    def __intit__(self, interval_ms, signal_callback):
+    def __init__(self, interval_ms, signal_callback):
         self._interval_ms = interval_ms
         self._signal_callback = signal_callback
         self._running = False
@@ -20,7 +20,7 @@ class IOTMailbox:
         self._thread= threading.Thread(target=self._monitor_loop, daemon = True)
         self._thread.start()
 
-    def stop(self): 
+    def stop(self) -> None: 
         if self._running == False:
             return 
     
@@ -35,10 +35,10 @@ class IOTMailbox:
     def _sample_light_level(self): 
         magnitude = random.random()
 
-        if (self._sample_light_level >= 0):
+        if (self._last_light_level >= 0):
             new_level = -magnitude
         else:
             new_level = magnitude
         
-        self._sample_light_level = new_level
+        self._last_light_level = new_level
         return new_level
